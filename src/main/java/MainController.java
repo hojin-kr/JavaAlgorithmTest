@@ -10,81 +10,99 @@ public class MainController {
         integerArrayData.setA(RandomArrayGen(301, integerArrayData.getA().length));
         integerArrayData.setB(RandomArrayGen(301, integerArrayData.getB().length));
 
-        //Collection set으로 변환하고 처리를 할까?, 출력도 하나의 메소드로 몰고 리턴으로 값 주도록하고
-        Set mySetA = new TreeSet();
-        Set mySetB = new TreeSet();
-        Collections.addAll(mySetA, integerArrayData.getA());
-        Collections.addAll(mySetB, integerArrayData.getB());
-
+        //1-3)랜덤 생성된 A, B 배열 출력
         SortArrayPrint(integerArrayData.getA(), integerArrayData.getB());
 
-        System.out.println(integerArrayData.getA().length +"^^^"+ integerArrayData.getB().length + "#####");
-
         //4) A - B
-        DifferenceSet(mySetA, mySetB);
+        setPrint(DifferenceSet(integerArrayData.getA(), integerArrayData.getB()));
         //5) B - A
-        DifferenceSet(mySetB, mySetA);
+        setPrint(DifferenceSet(integerArrayData.getB(), integerArrayData.getA()));
         //6) A n B
-        Intersection(mySetA, mySetB);
+        setPrint(Intersection(integerArrayData.getA(), integerArrayData.getB()));
         //7) A + B
-        Union(mySetA, mySetB);
+        setPrint(Union(integerArrayData.getA(), integerArrayData.getB()));
+        //8) (A + B) - (A n B)
+        setPrint(UnionIntersectionDiffer(integerArrayData.getA(), integerArrayData.getB()));
     }
 
     //1-2,8) Integer 로 이루어진 배열을 생성
     public static Integer[] RandomArrayGen(int bound, int index) {
         Random random = new Random();
-        Integer[] randomArrayGen = new Integer[index];
-        //중복제거
-        for (int i = 0; i < index; i++) {
-            randomArrayGen[i] = random.nextInt(bound);
-            for (int j = 0; j < i; j++) {
-                if (randomArrayGen[i] == randomArrayGen[j])
-                    i--;
-            }
+
+        Set randomArrayGen = new TreeSet();
+        Integer[] resultArray = new Integer[index];
+
+        while(randomArrayGen.size() < index){
+            Integer rand = random.nextInt(bound);
+            randomArrayGen.add(rand);
         }
-        return randomArrayGen;
+        for(int i = 0; i < randomArrayGen.size(); i++){
+            resultArray[i] = Integer.valueOf(randomArrayGen.toArray()[i].toString());
+        }
+
+        return resultArray;
 
     }
 
     //#####set으로 변환하여 집합 연산을 수행
 
-    //3) 배열을 정렬 후 출력
-    public static void SortArrayPrint(Integer[] integerArraySortA, Integer[] integerArraySortB) {
-        Arrays.sort(integerArraySortA);
-        Arrays.sort(integerArraySortB);
-        System.out.println("output A : " + Arrays.toString(integerArraySortA));
-        System.out.println("output B : " + Arrays.toString(integerArraySortB));
+    //3)출력
+    public static void SortArrayPrint(Integer[] printA, Integer[] printB){
+        System.out.println("output A : " + Arrays.toString(printA));
+        System.out.println("output B : " + Arrays.toString(printB));
+    }
 
-
+    //3)출력 (집합 연산 이후)
+    public static void setPrint(Set A){
+        System.out.println(Arrays.toString(A.toArray()));
     }
 
     //4-5) A - B 차집합을 구하고, 차집합을 출력하세요.
-    public static void DifferenceSet(Set integerArrayDifferA, Set integerArrayDifferB) {
-        integerArrayDifferA.removeAll(integerArrayDifferB);
+    public static Set DifferenceSet(Integer[] integerArrayDifferA, Integer[] integerArrayDifferB) {
+        Set mySetA = new TreeSet();
+        Set mySetB = new TreeSet();
+        Collections.addAll(mySetA, integerArrayDifferA);
+        Collections.addAll(mySetB, integerArrayDifferB);
 
-        System.out.println("차" + Arrays.toString(integerArrayDifferA.toArray()));
+        mySetA.removeAll(mySetB);
+        return mySetA;
     }
 
     //6) A, B 교집합을 구하고, 교집합을 출력하세요.
-    public static void Intersection(Set integerArrayInterA, Set integerArrayInterB) {
-        integerArrayInterB.retainAll(integerArrayInterA);
+    public static Set Intersection(Integer[] integerArrayInterA, Integer[] integerArrayInterB) {
+        Set mySetA = new TreeSet();
+        Set mySetB = new TreeSet();
+        Collections.addAll(mySetA, integerArrayInterA);
+        Collections.addAll(mySetB, integerArrayInterB);
 
-        System.out.println("교" + Arrays.toString(integerArrayInterA.toArray()));
-
+        mySetA.retainAll(mySetB);
+        return mySetA;
     }
 
     //7) A, B 합집합을 구하고, 합집합을 출력하세요.
-    public static void Union(Set integerArrayUnionA, Set integerArrayUnionB) {
-        integerArrayUnionA.addAll(integerArrayUnionB);
+    public static Set Union(Integer[] integerArrayUnionA, Integer[] integerArrayUnionB) {
+        Set mySetA = new TreeSet();
+        Set mySetB = new TreeSet();
+        Collections.addAll(mySetA, integerArrayUnionA);
+        Collections.addAll(mySetB, integerArrayUnionB);
 
-        System.out.println("합" + Arrays.toString(integerArrayUnionA.toArray()));
-
-
+        mySetA.addAll(mySetB);
+        return mySetA;
     }
 
     //8) A, B 합집합에서 A, B 교집합을 뺀 차집합을 출력하세요.
-    public static void UnionIntersectionDiffer(){
+    public static Set UnionIntersectionDiffer(Integer[] integerArrayUnionInterA , Integer[] integerArrayUnionInterB ){
+        Set mySetA = new TreeSet();
+        Set mySetB = new TreeSet();
+        Collections.addAll(mySetA, integerArrayUnionInterA);
+        Collections.addAll(mySetB, integerArrayUnionInterB);
 
+        mySetA = Union(integerArrayUnionInterA, integerArrayUnionInterB);
+        mySetB = Intersection(integerArrayUnionInterA, integerArrayUnionInterB);
+
+        mySetA.removeAll(mySetB);
+
+        return mySetA;
     }
 
 }
