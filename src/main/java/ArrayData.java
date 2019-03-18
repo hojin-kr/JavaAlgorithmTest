@@ -1,5 +1,5 @@
 public class ArrayData {
-    private  Integer[] A = new Integer[300];
+    private  Integer[] A = new Integer[100];
     private  Integer[] B = new Integer[100];
 
     public Integer[] getA() {
