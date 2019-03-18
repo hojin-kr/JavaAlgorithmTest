@@ -1,5 +1,7 @@
 public class ArrayData {
-    private  Integer[] A = new Integer[100];
+    //A 배열  0 ~ 300
+    //B 배열 Integer[100]
+    private  Integer[] A = new Integer[301];
     private  Integer[] B = new Integer[100];
 
     public Integer[] getA() {
