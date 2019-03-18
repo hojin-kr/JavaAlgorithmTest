@@ -1,4 +1,5 @@
 import java.text.CollationElementIterator;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MainController {
@@ -11,6 +12,7 @@ public class MainController {
         integerArrayData.setB(RandomArrayGen(301, integerArrayData.getB().length));
 
         //1-3)랜덤 생성된 A, B 배열 출력
+        /*
         SortArrayPrint(integerArrayData.getA(), integerArrayData.getB());
 
         //4) A - B
@@ -23,6 +25,23 @@ public class MainController {
         setPrint(Union(integerArrayData.getA(), integerArrayData.getB()));
         //8) (A + B) - (A n B)
         setPrint(UnionIntersectionDiffer(integerArrayData.getA(), integerArrayData.getB()));
+        */
+        //테스트 코드
+
+        long startTime = System.currentTimeMillis();
+
+        for(int i = 0; i < 1000; i++){
+            DifferenceSet(integerArrayData.getA(), integerArrayData.getB());
+            DifferenceSet(integerArrayData.getB(), integerArrayData.getA());
+            Intersection(integerArrayData.getA(), integerArrayData.getB());
+            Union(integerArrayData.getA(), integerArrayData.getB());
+            UnionIntersectionDiffer(integerArrayData.getA(), integerArrayData.getB());
+        }
+        long endTime = System.currentTimeMillis();
+
+        long workTime = endTime - startTime;
+        System.out.println("시작 : " + startTime + "\n" + "종료 : " + endTime + "\n" + "소요시간 : " + workTime + "ms");
+
     }
 
     //1-2,8) Integer 로 이루어진 배열을 생성
