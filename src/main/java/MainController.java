@@ -5,14 +5,15 @@ import java.util.*;
 public class MainController {
     public static void main(String[] args) {
 
+        /*
         ArrayData integerArrayData = new ArrayData();
 
-        //초기 배열 데이터 생성 (bound:랜덤값 범위, size:배열의 크기)
+        //1-2)초기 배열 데이터 생성 (bound:랜덤값 범위, size:배열의 크기)
         integerArrayData.setA(RandomArrayGen(301, integerArrayData.getA().length));
         integerArrayData.setB(RandomArrayGen(301, integerArrayData.getB().length));
 
-        //1-3)랜덤 생성된 A, B 배열 출력
-        /*
+        //3)랜덤 생성된 A, B 배열 출력
+
         SortArrayPrint(integerArrayData.getA(), integerArrayData.getB());
 
         //4) A - B
@@ -26,11 +27,14 @@ public class MainController {
         //8) (A + B) - (A n B)
         setPrint(UnionIntersectionDiffer(integerArrayData.getA(), integerArrayData.getB()));
         */
-        //테스트 코드
 
+        //테스트 코드
         long startTime = System.currentTimeMillis();
 
         for(int i = 0; i < 1000; i++){
+            ArrayData integerArrayData = new ArrayData();
+            integerArrayData.setA(RandomArrayGen(301, integerArrayData.getA().length));
+            integerArrayData.setB(RandomArrayGen(301, integerArrayData.getB().length));
             DifferenceSet(integerArrayData.getA(), integerArrayData.getB());
             DifferenceSet(integerArrayData.getB(), integerArrayData.getA());
             Intersection(integerArrayData.getA(), integerArrayData.getB());
